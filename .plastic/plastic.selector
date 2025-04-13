@@ -1,0 +1,4 @@
+repository "FightingGameProject01/FightingGameProject01@2475792254777@cloud"
+  path "/"
+    br "/main"
+    co "/main"
