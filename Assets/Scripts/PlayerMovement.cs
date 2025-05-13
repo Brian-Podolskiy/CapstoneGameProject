@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Collider2D crouchingCollider;
     private bool faceRight = true;
     private int attacknumdone = 0;
+    [SerializeField] public bool isBlocking;
 
     void Start()
     {
@@ -101,11 +102,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        /*if (isCrouching)
+        /*if (isCrouching) not even crouching
         {
             horizontal = (context.ReadValue<Vector2>().x * 0.75f);
             slowed = true;
-        }
+        } 
         else
         {
             horizontal = context.ReadValue<Vector2>().x;
@@ -127,6 +128,24 @@ public class PlayerMovement : MonoBehaviour
             isCrouching = false;
             standingCollider.enabled = true;
             crouchingCollider.enabled = false;
+        }
+    }
+
+    public void Block(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            isBlocking = true;
+            Debug.Log("block");
+        }
+        else if (context.canceled)
+        {
+            isBlocking = false;
+            Debug.Log("no block");
+        }
+        else
+        {
+            Debug.Log("no");
         }
     }
 
@@ -232,6 +251,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //Debug.Log("hit low");
                     //do damage here
+                    enemy.GetComponent<HealthScript>().UpdateHealth(25, false);
                 }
 
                 break;
@@ -246,7 +266,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //Debug.Log("hit middle");
                     // do damage here
-                    enemy.GetComponent<HealthScript>().UpdateHealth(100);
+                    enemy.GetComponent<HealthScript>().UpdateHealth(50, false);
                 }
 
                 break;
@@ -261,6 +281,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //Debug.Log("hit high");
                     // do damage here
+                    enemy.GetComponent<HealthScript>().UpdateHealth(75, false);
                 }
                 break;
 
@@ -273,6 +294,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //Debug.Log("hit jumping low");
                     // do damage here
+                    enemy.GetComponent<HealthScript>().UpdateHealth(35, false);
+
                 }
                 break;
 
@@ -285,6 +308,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //Debug.Log("hit jumping mid");
                     // do damage here
+                    enemy.GetComponent<HealthScript>().UpdateHealth(55, false);
+
                 }
                 break;
 
@@ -297,6 +322,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //Debug.Log("hit jumping high");
                     // do damage here
+                    enemy.GetComponent<HealthScript>().UpdateHealth(80, false);
+
                 }
                 break;
             case 6:
@@ -306,6 +333,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Debug.Log("grab attack");
                     // damage
+                    enemy.GetComponent<HealthScript>().UpdateHealth(100, true);
+
                 }
                 break;
             case 7:
@@ -316,6 +345,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //Debug.Log("hit jumping high");
                     // do damage here
+                    enemy.GetComponent<HealthScript>().UpdateHealth(20, false);
+
                 }
                 break;
             case 8:
@@ -326,6 +357,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //Debug.Log("hit jumping high");
                     // do damage here
+                    enemy.GetComponent<HealthScript>().UpdateHealth(30, false);
+
                 }
                 break;
             case 9:
@@ -336,6 +369,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //Debug.Log("hit jumping high");
                     // do damage here
+                    enemy.GetComponent<HealthScript>().UpdateHealth(50, false);
+
                 }
                 break;
         }
@@ -347,9 +382,26 @@ public class PlayerMovement : MonoBehaviour
         {
             case 0:
                 Debug.Log("sp attack 0");
+                Collider2D[] enemySPAttack0 = Physics2D.OverlapCircleAll(attackPointLow.position, attackRange, enemyLayers);
+                foreach (Collider2D enemy in enemySPAttack0)
+                {
+                    //Debug.Log("hit jumping high");
+                    // do damage here
+                    enemy.GetComponent<HealthScript>().UpdateHealth(110, false);
+
+                }
+
                 break;
             case 1:
                 Debug.Log("sp attack 1");
+                Collider2D[] enemySPAttack1 = Physics2D.OverlapCircleAll(attackPointLow.position, attackRange, enemyLayers);
+                foreach (Collider2D enemy in enemySPAttack1)
+                {
+                    //Debug.Log("hit jumping high");
+                    // do damage here
+                    enemy.GetComponent<HealthScript>().UpdateHealth(115, false);
+
+                }
                 break;
         }
     }
@@ -440,18 +492,21 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
+
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
 
         if (attackPointLow == null)
         {
             return;
         }
+
         Gizmos.DrawWireSphere(attackPointLow.position, attackRange);
 
         if (attackPointHigh == null)
         {
             return;
         }
+
         Gizmos.DrawWireSphere(attackPointHigh.position, attackRange);
     }
 }

@@ -11,8 +11,13 @@ public class HealthScript : MonoBehaviour
 
     [SerializeField] public float startingHealth;
 
-    public void UpdateHealth(float change)
+    public void UpdateHealth(float change, bool isGrab)
     {
+        if (this.GetComponent<PlayerMovement>().isBlocking && isGrab == false)
+        {
+            change *= 0.1f;
+        }
+
         startingHealth -= change;
         Debug.Log("health: " + startingHealth);
 

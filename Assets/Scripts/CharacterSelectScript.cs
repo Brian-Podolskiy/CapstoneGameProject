@@ -152,6 +152,7 @@ public class CharacterSelectScript : MonoBehaviour
 
     public void Update()
     {
+        // Debug.Log("P1: " + charSelectP1 + "\n" + "P2: " + charSelectP2);
         if (P1Ready && P2Ready)
         {
             SceneManager.LoadScene(2);
