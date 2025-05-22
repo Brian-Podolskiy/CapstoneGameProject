@@ -167,6 +167,7 @@ MonoBehaviour:
   rb: {fileID: 6912476218062098708}
   facingRight: 0
   isCrouching: 0
+  GameManager: {fileID: 0}
   groundCheck: {fileID: 1628248193483173748}
   attackPoint: {fileID: 7265918097710366242}
   attackPointLow: {fileID: 8660285092372273377}
@@ -182,6 +183,7 @@ MonoBehaviour:
   slowed: 0
   standingCollider: {fileID: 8762089176366319705}
   crouchingCollider: {fileID: 20245015776332025}
+  isBlocking: 0
 --- !u!61 &8762089176366319705
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -309,6 +311,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 658333977775325879}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Lion_running
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 3391c43b-e978-4717-9dd2-d80016edc236

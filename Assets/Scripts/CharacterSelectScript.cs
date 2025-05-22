@@ -21,6 +21,8 @@ public class CharacterSelectScript : MonoBehaviour
     public GameObject player2;
     [SerializeField] public static int charSelectP1;
     [SerializeField] public static int charSelectP2;
+    public int charp1; // not static, initializable
+    public int charp2; // not static initializable
     public bool P1Ready;
     public bool P2Ready;
     int playernum = 0;
@@ -68,7 +70,7 @@ public class CharacterSelectScript : MonoBehaviour
         switch (list.Count)
         {
             case (1):
-                player1 = (GameObject)PlayerList[0];
+                player1 = (GameObject)PlayerList[0]; 
                 break;
 
             case (2):
@@ -88,10 +90,12 @@ public class CharacterSelectScript : MonoBehaviour
             if (LastActivePlayer.playerIndex == 0)
             {
                 charSelectP1 = 1;
+                charp1 = 1;
             }
             else
             {
                 charSelectP2 = 1;
+                charp2 = 1;
             }
         }
         else
@@ -108,10 +112,12 @@ public class CharacterSelectScript : MonoBehaviour
             if (LastActivePlayer.playerIndex == 0)
             {
                 charSelectP1 = 2;
+                charp1 = 2;
             }
             else
             {
                 charSelectP2 = 2;
+                charp2 = 2;
             }
         }
         else

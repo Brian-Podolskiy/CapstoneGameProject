@@ -10,6 +10,14 @@ public class HealthScript : MonoBehaviour
 {
 
     [SerializeField] public float startingHealth;
+    [SerializeField] public GameObject GameManager;
+    private bool isAlive;
+
+    private void Start()
+    {
+        isAlive = true;
+        GameManager = GameObject.Find("GameManager");
+    }
 
     public void UpdateHealth(float change, bool isGrab)
     {
@@ -19,11 +27,20 @@ public class HealthScript : MonoBehaviour
         }
 
         startingHealth -= change;
-        Debug.Log("health: " + startingHealth);
+        //Debug.Log("health: " + startingHealth);
 
-        if (startingHealth <= 0)
+        if (startingHealth <= 0 && isAlive == true)
         {
             // kill player
+            Debug.Log("called death");
+            DisableUpdates();
+            GameManager.GetComponent<GameManagerScript>().EndGame(gameObject);
+            //Destroy(this);
         }
+    }
+
+    public void DisableUpdates()
+    {
+        isAlive = false;
     }
 }

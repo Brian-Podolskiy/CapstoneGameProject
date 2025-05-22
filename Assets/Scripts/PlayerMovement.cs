@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     public bool facingRight;
     [SerializeField] public bool isCrouching;
+    [SerializeField] public GameObject GameManager;
     public Transform groundCheck;
     public Transform attackPoint; // attackPoint and attackRange variables can be adjusted for each character's attacks
     public Transform attackPointLow;
@@ -26,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     public ArrayList comboAttacks = new ArrayList();
     [SerializeField] public int[][] specialMoveList = new int[][] { // list of button inputs required for special move to be executed, should be changed for each character
-        new int [] { 0, 1, 0 }, 
+        new int [] { 0, 1, 0 },
         new int [] { 1, 1, 1 },
         new int [] { 0, 2, 1 }
     };
@@ -50,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log(CharacterSelectScript.charSelectP1);
         attacknumdone = 0;
+        // Debug.Log(GameManagerScript.gameStarted);
     }
 
     void Update()
@@ -64,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Flip();
         }
+        // Debug.Log("GameStarted: " + GameManagerScript.gameStarted);
     }
 
     public void StartTimer()
@@ -75,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        if (context.performed && IsGrounded())
+        if (context.performed && IsGrounded() && GameManagerScript.gameStarted)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
         }
@@ -102,22 +105,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        /*if (isCrouching) not even crouching
-        {
-            horizontal = (context.ReadValue<Vector2>().x * 0.75f);
-            slowed = true;
-        } 
-        else
+        if (GameManagerScript.gameStarted)
         {
             horizontal = context.ReadValue<Vector2>().x;
-            slowed = false;
-        }*/
-        horizontal = context.ReadValue<Vector2>().x;
+        }
+        
     }
 
     public void Crouch(InputAction.CallbackContext context)
     {
-        if (context.started && IsGrounded())
+        if (context.started && IsGrounded() && GameManagerScript.gameStarted)
         {
             isCrouching = true;
             standingCollider.enabled = false;
@@ -133,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Block(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && GameManagerScript.gameStarted)
         {
             isBlocking = true;
             Debug.Log("block");
@@ -143,15 +140,11 @@ public class PlayerMovement : MonoBehaviour
             isBlocking = false;
             Debug.Log("no block");
         }
-        else
-        {
-            Debug.Log("no");
-        }
     }
 
     public void AttackLow(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && GameManagerScript.gameStarted)
         {
             if (!IsGrounded())
             {
@@ -165,14 +158,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 Attack(0);
             }
-            
+
         }
-        
+
     }
 
     public void AttackMiddle(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && GameManagerScript.gameStarted)
         {
             if (!IsGrounded())
             {
@@ -186,18 +179,18 @@ public class PlayerMovement : MonoBehaviour
             {
                 Attack(1);
             }
-            
+
         }
-        
+
     }
 
     public void AttackHigh(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && GameManagerScript.gameStarted)
         {
             if (!IsGrounded())
             {
-                Attack(5);   
+                Attack(5);
             }
             else if (isCrouching)
             {
@@ -214,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void AttackGrab(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && GameManagerScript.gameStarted)
         {
             if (!IsGrounded())
             {
@@ -235,7 +228,7 @@ public class PlayerMovement : MonoBehaviour
      * if timer elapses certain point, combo is aborted
      */
 
-    public void Attack(int type) 
+    public void Attack(int type)
     {
         attacknumdone++;
         Debug.Log("attack number done: " + attacknumdone);
@@ -483,7 +476,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        
+
     }
 
     private void OnDrawGizmosSelected() // gives visual representation of each attackPoint's hitbox, iirc shouldn't be visible in game view
@@ -510,3 +503,6 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawWireSphere(attackPointHigh.position, attackRange);
     }
 }
+
+
+  

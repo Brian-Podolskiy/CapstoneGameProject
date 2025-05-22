@@ -32,10 +32,12 @@ public class PlayerHealthScript : MonoBehaviour
             if (P1health <= 0)
             {
                 GameManager.GetComponent<GameManagerScript>().EndGame(GameManagerScript.P2);
+                //Destroy(GameManagerScript.P2);
             }
             else if (P2health <= 0)
             {
                 GameManager.GetComponent<GameManagerScript>().EndGame(GameManagerScript.P1);
+                //Destroy(GameManagerScript.P1);
             }
         }
     }
